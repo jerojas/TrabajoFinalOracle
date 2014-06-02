@@ -17,8 +17,8 @@ public class TrabajoFinalOracle {
      */
     public static void main(String[] args) {
        
-        
-        
+       new Interfaz();
+       
     }
     
 }
