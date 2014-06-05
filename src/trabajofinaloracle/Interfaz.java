@@ -5,6 +5,7 @@
  */
 
 package trabajofinaloracle;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,8 +22,31 @@ public class Interfaz extends javax.swing.JFrame {
         initComponents();
         conn = new Conexion();
         this.setVisible(true);
+        
+      initComponents();
+        this.setTitle("Trabajo final");
+
+        Actualizar_Tabla();
+        //oculta columna ID
+
+        //editor de caldas
+        jTable1.getColumnModel().getColumn( 1 ).setCellEditor(new MyTableCellEditor(db,"p_nombre"));//Columna Nombre
+        jTable1.getColumnModel().getColumn( 2 ).setCellEditor(new MyTableCellEditor(db,"p_apellido"));//Columna Apellido
+        jTable1.getColumnModel().getColumn( 3 ).setCellEditor(new MyTableCellEditor(db,"p_edad"));//Columna Edad  
     }
 
+private Conexion db = new Conexion();
+    private Object[][] dtPersona;    
+    
+    
+private void Actualizar_Tabla(){
+        //actualiza los datos de la tabla realizando una consulta a la base de datos
+        String[] columNames = {"Codigo" ,"Nombre","Apellido","Edad"};
+        dtPersona = db.Select_Persona();
+        // se colocan los datos en la tabla
+        DefaultTableModel datos = new DefaultTableModel(dtPersona,columNames);
+        jTable1.setModel(datos);
+}    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,27 +58,36 @@ public class Interfaz extends javax.swing.JFrame {
 
         jTabbedPane4 = new javax.swing.JTabbedPane();
         jTabbedPane5 = new javax.swing.JTabbedPane();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
-        jTabbedPane6 = new javax.swing.JTabbedPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTabbedPane1.addTab("Departamentos", jTabbedPane2);
-        jTabbedPane1.addTab("Empleados", jTabbedPane6);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 25, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-
-        jTabbedPane1.getAccessibleContext().setAccessibleName("tab2");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -95,10 +128,9 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTabbedPane jTabbedPane5;
-    private javax.swing.JTabbedPane jTabbedPane6;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
